@@ -4,6 +4,14 @@ FROM dunglas/frankenphp:php8.2.30-bookworm
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
+RUN apt-get update && apt-get install -y \
+    git \
+    zip \
+    unzip \
+    libzip-dev \
+    && docker-php-ext-install zip \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY . .
