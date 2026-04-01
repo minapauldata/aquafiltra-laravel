@@ -28,6 +28,7 @@ ENV DB_PASSWORD=NYlJkaNEnIUlgSNDvMFOaJtOgLMtPPsU
 ENV APP_KEY=base64:6LwLL/aYqgi1IuDi0RsXEryhjC+wVqEU0JE4vf8fOKw=
 ENV APP_ENV=production
 ENV APP_URL=https://aquafiltra-laravel.up.railway.app
+ENV PORT=8000
 
 RUN composer install --no-dev --optimize-autoloader
 
@@ -37,4 +38,4 @@ RUN php artisan storage:link
 
 EXPOSE 8000
 
-CMD echo "Starting on port $PORT" && php artisan serve --host=0.0.0.0 --port=$PORT
+CMD ["/bin/sh", "-c", "php artisan serve --host=0.0.0.0 --port=${PORT:-8000}"]
