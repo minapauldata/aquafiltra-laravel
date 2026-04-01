@@ -218,6 +218,9 @@
 </nav>
 
 <!-- FLOATING ABOUT US BUTTON -->
+<a href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">
+  📱 Download App
+</a>
 <a href="{{ url('/about') }}" class="fab">👥 About Us</a>
 
 <main>
