@@ -32,9 +32,9 @@ ENV APP_URL=https://aquafiltra-laravel.up.railway.app
 RUN composer install --no-dev --optimize-autoloader
 RUN php artisan storage:link
 
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 
 EXPOSE 8080
 
-CMD ["/start.sh"]
+CMD ["/bin/sh", "/app/start.sh"]
