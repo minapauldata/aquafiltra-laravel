@@ -383,7 +383,7 @@
   <!-- LEADER -->
   <div class="leader-wrap">
     <div class="leader-card">
-      <img src="https://marlys-scientistic-realizingly.ngrok-free.dev/images/john_wincy.png" style="width:90px;height:90px;border-radius:16px;object-fit:cover;flex-shrink:0;border:1px solid rgba(0,212,255,0.3);">
+      <img src="https://aquafiltra.up.railway.app/images/john_wincy.png" style="width:90px;height:90px;border-radius:16px;object-fit:cover;flex-shrink:0;border:1px solid rgba(0,212,255,0.3);">
       <div class="card-info">
         <div class="card-name">John Wincy Musa</div>
         <div class="card-role role-leader">Project Leader · 3D Designer</div>
@@ -405,7 +405,7 @@
 
     <!-- Paul -->
     <div class="member-card">
-      <img src="https://marlys-scientistic-realizingly.ngrok-free.dev/images/paul_albert.png" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid rgba(0,255,148,0.3);">
+      <img src="https://aquafiltra.up.railway.app/images/paul_albert.png" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid rgba(0,255,148,0.3);">
       <div class="card-info">
         <div class="card-name">Paul Albert Mina</div>
         <div class="card-role role-fullstack">Full Stack Engineer</div>
@@ -423,7 +423,7 @@
 
     <!-- Manuel -->
     <div class="member-card">
-      <img src="https://marlys-scientistic-realizingly.ngrok-free.dev/images/manuel_arthur.png" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid rgba(168,224,99,0.3);">
+      <img src="https://aquafiltra.up.railway.app/images/manuel_arthur.png" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid rgba(168,224,99,0.3);">
       <div class="card-info">
         <div class="card-name">Manuel Arthur SanJuan</div>
         <div class="card-role role-frontend">Front End Developer</div>
@@ -464,7 +464,7 @@
 
     <!-- Ron -->
     <div class="member-card">
-      <img src="https://marlys-scientistic-realizingly.ngrok-free.dev/images/ron_albert.jpg" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid rgba(255,107,53,0.3);">
+      <img src="https://aquafiltra.up.railway.app/images/ron_albert.jpg" style="width:72px;height:72px;border-radius:12px;object-fit:cover;flex-shrink:0;border:1px solid rgba(255,107,53,0.3);">
       <div class="card-info">
         <div class="card-name">Ron Albert Madrid</div>
         <div class="card-role role-docs">Research & Data Analyst</div>
