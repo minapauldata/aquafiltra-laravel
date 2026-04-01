@@ -32,6 +32,6 @@ ENV APP_URL=https://aquafiltra-laravel.up.railway.app
 RUN composer install --no-dev --optimize-autoloader
 RUN php artisan storage:link
 
-EXPOSE 8080
+EXPOSE 8000
 
-CMD php artisan migrate --force && echo "Migration done" && php artisan serve --host=0.0.0.0 --port=8080 && echo "Server started"
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000
