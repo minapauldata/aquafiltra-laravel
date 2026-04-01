@@ -1,0 +1,1 @@
+ls C:\Users\minap\Desktop\aquafiltra-thesis\aquafiltra-laravel
