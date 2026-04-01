@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>AquaFiltra Monitor</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<link rel="icon" type="image/png" href="{{ asset('images/aquafiltra_logo_themed.png') }}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
@@ -208,7 +207,7 @@
 <nav>
   <div class="logo">
     <div class="logo-dot" id="logoDot"></div>
-    <img src="https://aquafiltra.up.railway.app/images/aquafiltra_logo_themed.png" style="width:32px;height:32px;object-fit:contain;"> AquaFiltra Monitor
+    💧 AquaFiltra Monitor
   </div>
   <div class="nav-right">
 
@@ -219,10 +218,6 @@
 
 <!-- FLOATING ABOUT US BUTTON -->
 <a href="{{ url('/about') }}" class="fab">👥 About Us</a>
-<a id="downloadBtn" href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">
-  Download App
-</a>
-
 
 <main>
 
@@ -486,9 +481,23 @@
     badge.textContent = data.status.toUpperCase();
     badge.className   = 'badge ' + data.status;
 
-    ['phCard','turbCard','tdsCard'].forEach(c => {
-      document.getElementById(c).className = 'gauge-card ' + data.status;
-    });
+    // Set each card border color based on its own value color
+    function getValueColor(value, defaultColor, warnThresh, dangerThresh) {
+      if (value >= dangerThresh) return '#ff4757';
+      if (value >= warnThresh)   return '#ffd700';
+      return defaultColor;
+    }
+    const phColor   = getValueColor(ph,   '#00ff9d', 8.5,  9.0);
+    const turbColor = getValueColor(turb, '#00ff9d', 4,    10);
+    const tdsColor  = getValueColor(tds,  '#00ff9d', 500,  1000);
+
+    document.getElementById('phCard').style.borderTopColor   = phColor;
+    document.getElementById('turbCard').style.borderTopColor = turbColor;
+    document.getElementById('tdsCard').style.borderTopColor  = tdsColor;
+
+    document.getElementById('phCard').className   = 'gauge-card';
+    document.getElementById('turbCard').className = 'gauge-card';
+    document.getElementById('tdsCard').className  = 'gauge-card';
 
     const t = new Date(data.created_at);
     document.getElementById('readingTime').textContent  = 'Last reading: ' + t.toLocaleTimeString();
@@ -550,14 +559,5 @@
   loadHistory();
   setInterval(poll, 3000);
 </script>
-
-<script>
-  // Hide download button if opened inside AquaFiltra app
-  if (navigator.userAgent.includes('AquaFiltraApp')) {
-    document.getElementById('downloadBtn').style.display = 'none';
-  }
-</script>
-
-
 </body>
 </html>
