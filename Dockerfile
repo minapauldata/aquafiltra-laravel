@@ -19,7 +19,6 @@ WORKDIR /app
 
 COPY . .
 
-# ── SET ENV VARIABLES ──
 ENV DB_CONNECTION=mysql
 ENV DB_HOST=gondola.proxy.rlwy.net
 ENV DB_PORT=38033
@@ -32,8 +31,10 @@ ENV APP_URL=https://aquafiltra-laravel.up.railway.app
 
 RUN composer install --no-dev --optimize-autoloader
 
+RUN php artisan migrate --force
+
 RUN php artisan storage:link
 
 EXPOSE 8000
 
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT
+CMD php artisan serve --host=0.0.0.0 --port=$PORT
