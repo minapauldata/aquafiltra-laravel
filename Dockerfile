@@ -1,4 +1,8 @@
+FROM composer:latest AS composer
+
 FROM dunglas/frankenphp:php8.2.30-bookworm
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
