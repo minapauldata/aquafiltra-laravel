@@ -219,7 +219,7 @@
 
 <!-- FLOATING ABOUT US BUTTON -->
 <a href="{{ url('/about') }}" class="fab">👥 About Us</a>
-<a href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">
+<a id="downloadBtn" href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">
   Download App
 </a>
 
@@ -550,5 +550,14 @@
   loadHistory();
   setInterval(poll, 3000);
 </script>
+
+<script>
+  // Hide download button if opened inside AquaFiltra app
+  if (navigator.userAgent.includes('AquaFiltraApp')) {
+    document.getElementById('downloadBtn').style.display = 'none';
+  }
+</script>
+
+
 </body>
 </html>
