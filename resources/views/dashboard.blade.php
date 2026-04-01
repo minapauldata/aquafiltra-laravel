@@ -208,7 +208,7 @@
 <nav>
   <div class="logo">
     <div class="logo-dot" id="logoDot"></div>
-    <img src="https://marlys-scientistic-realizingly.ngrok-free.dev/images/aquafiltra_logo_themed.png" style="width:32px;height:32px;object-fit:contain;"> AquaFiltra Monitor
+    <img src="https://aquafiltra.up.railway.app/images/aquafiltra_logo_themed.png" style="width:32px;height:32px;object-fit:contain;"> AquaFiltra Monitor
   </div>
   <div class="nav-right">
 
