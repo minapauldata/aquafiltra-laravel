@@ -9,7 +9,10 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     libzip-dev \
-    && docker-php-ext-install zip \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    && docker-php-ext-install zip pdo pdo_mysql mbstring \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
