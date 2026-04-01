@@ -1,6 +1,6 @@
 FROM composer:latest AS composer
 
-FROM dunglas/frankenphp:php8.2.30-bookworm
+FROM php:8.2-apache
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
@@ -13,9 +13,10 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     && docker-php-ext-install zip pdo pdo_mysql mbstring \
+    && a2enmod rewrite \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+WORKDIR /var/www/html
 
 COPY . .
 
@@ -28,14 +29,11 @@ ENV DB_PASSWORD=NYlJkaNEnIUlgSNDvMFOaJtOgLMtPPsU
 ENV APP_KEY=base64:6LwLL/aYqgi1IuDi0RsXEryhjC+wVqEU0JE4vf8fOKw=
 ENV APP_ENV=production
 ENV APP_URL=https://aquafiltra-laravel.up.railway.app
-ENV SERVER_NAME=:8080
+ENV PORT=8080
 
 RUN composer install --no-dev --optimize-autoloader
-
-RUN php artisan migrate --force
-
 RUN php artisan storage:link
 
 EXPOSE 8080
 
-CMD ["frankenphp", "php-server", "--listen", "0.0.0.0:8080", "--root", "/app/public"]
+CMD php artisan migrate --force && php -S 0.0.0.0:${PORT:-8080} -t public
