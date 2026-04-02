@@ -207,7 +207,7 @@
 <nav>
   <div class="logo">
     <div class="logo-dot" id="logoDot"></div>
-    <img src="https://aquafiltra.up.railway.app/images/aquafiltra_logo_themed.png" style="width:32px;height:32px;object-fit:contain;"> AquaFiltra Monitor
+    💧 AquaFiltra Monitor
   </div>
   <div class="nav-right">
 
@@ -217,7 +217,15 @@
 </nav>
 
 <!-- FLOATING ABOUT US BUTTON -->
+<a id="downloadBtn" href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">📱 Download App</a>
+
 <a href="{{ url('/about') }}" class="fab">👥 About Us</a>
+
+<script>
+  if (navigator.userAgent.includes('AquaFiltraApp')) {
+    document.getElementById('downloadBtn').style.display = 'none';
+  }
+</script>
 
 <main>
 
@@ -487,8 +495,8 @@
       if (value >= warnThresh)   return '#ffd700';
       return defaultColor;
     }
-    const phColor   = getValueColor(ph,   '#00ff9d', 8.5,  9.0);
-    const turbColor = getValueColor(turb, '#00ff9d', 4,    10);
+    const phColor   = getValueColor(ph,   '#00d4ff', 8.5,  9.0);
+    const turbColor = getValueColor(turb, '#ff6b35', 4,    10);
     const tdsColor  = getValueColor(tds,  '#00ff9d', 500,  1000);
 
     document.getElementById('phCard').style.borderTopColor   = phColor;
