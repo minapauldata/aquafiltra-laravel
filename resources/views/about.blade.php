@@ -364,6 +364,9 @@
 </div>
 
 <!-- FLOATING BACK BUTTON -->
+<a id="downloadBtn" href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">
+  Download App
+</a>
 <a href="{{ url('/') }}" class="fab">← Dashboard</a>
 
 <div class="hero">
@@ -487,5 +490,10 @@
   AquaFiltra · Thesis Project 2026 · Built with Laravel + ESP32
 </footer>
 
+<script>
+  if (navigator.userAgent.includes('AquaFiltraApp')) {
+    document.getElementById('downloadBtn').style.display = 'none';
+  }
+</script>
 </body>
 </html>
