@@ -10,16 +10,25 @@ class SensorController extends Controller
     // ESP32 calls this to POST sensor data
     public function store(Request $request)
     {
-        $request->validate([
-            'ph_level'  => 'required|numeric',
-            'turbidity' => 'required|numeric',
-            'tds'       => 'required|numeric',
+        $payload = $request->validate([
+            'ph_level'  => 'sometimes|numeric',
+            'turbidity' => 'sometimes|numeric',
+            'tds'       => 'sometimes|numeric',
         ]);
 
+        if (empty($payload)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'At least one sensor value is required.',
+            ], 422);
+        }
+
+        $latest = SensorReading::latest()->first();
+
         // Determine water quality status
-        $ph  = $request->ph_level;
-        $tds = $request->tds;
-        $ntu = $request->turbidity;
+        $ph  = isset($payload['ph_level']) ? (float) $payload['ph_level'] : (float) ($latest?->ph_level ?? 0);
+        $tds = isset($payload['tds']) ? (float) $payload['tds'] : (float) ($latest?->tds ?? 0);
+        $ntu = isset($payload['turbidity']) ? (float) $payload['turbidity'] : (float) ($latest?->turbidity ?? 0);
 
         $status = 'normal';
         if ($ph < 6.5 || $ph > 8.5 || $tds > 500 || $ntu > 4) {
