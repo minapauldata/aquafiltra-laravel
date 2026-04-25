@@ -266,12 +266,6 @@
       <div class="flow-sub">Layer 3</div>
     </div>
     <div class="flow-arrow">→</div>
-    <div class="flow-item">
-      <div class="flow-icon">🔆</div>
-      <div class="flow-label">UV LIGHT</div>
-      <div class="flow-sub">Sterilize</div>
-    </div>
-    <div class="flow-arrow">→</div>
     <div class="flow-sensor">
       <div class="flow-sensor-dot"></div>
       <div class="flow-sensor-label">pH<br>Sensor</div>
@@ -285,6 +279,19 @@
     <div class="flow-sensor">
       <div class="flow-sensor-dot" style="background:#00ff94;"></div>
       <div class="flow-sensor-label" style="color:#00ff94;">TDS<br>Sensor</div>
+    </div>
+    <div class="flow-arrow">·</div>
+    <!-- Water level sensor inserted after TDS -->
+    <div class="flow-sensor">
+      <div class="flow-sensor-dot" style="background:#00d4ff;"></div>
+      <div class="flow-sensor-label" style="color:#00d4ff;">Water Level<br>Sensor</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <!-- Move UV light to after water level sensor -->
+    <div class="flow-item">
+      <div class="flow-icon">🔆</div>
+      <div class="flow-label">UV LIGHT</div>
+      <div class="flow-sub">Sterilize</div>
     </div>
     <div class="flow-arrow">→</div>
     <div class="flow-item">
