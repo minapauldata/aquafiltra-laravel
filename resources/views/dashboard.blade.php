@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <img src="https://aquafiltra.up.railway.app/images/aquafiltra_logo_themed.png" style="width:32px;height:32px;object-fit:contain;"> AquaFiltra Monitor
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -211,9 +210,9 @@
 <body>
 
 <nav>
-  <div class="logo">
-    <div class="logo-dot" id="logoDot"></div>
-    💧 AquaFiltra Monitor
+  <div class="logo" style="display:flex;align-items:center;gap:10px;">
+    <img src="https://aquafiltra.up.railway.app/images/aquafiltra_logo_themed.png" alt="AquaFiltra" style="width:32px;height:32px;object-fit:contain;">
+    <span style="font-family:'Space Mono',monospace;font-size:13px;color:var(--white);font-weight:700;">AquaFiltra Monitor</span>
   </div>
   <div class="nav-right">
 
