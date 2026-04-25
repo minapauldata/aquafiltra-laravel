@@ -59,6 +59,12 @@
     #connection-status { padding:3px 8px; border:1px solid; font-size:10px; letter-spacing:1px; white-space:nowrap; }
     .status-ok  { border-color:var(--green); color:var(--green); }
     .status-err { border-color:var(--red);   color:var(--red);   }
+    /* Water level badge (replaces connection status) */
+    #water-status { padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700; letter-spacing:0.6px; }
+    .water-full  { background:rgba(0,255,157,.08); color:var(--green); border:1px solid rgba(0,255,157,.14); }
+    .water-near  { background:rgba(255,215,0,.06);  color:var(--yellow); border:1px solid rgba(255,215,0,.12); }
+    .water-empty { background:rgba(255,71,87,.04);  color:var(--red);    border:1px solid rgba(255,71,87,.08); }
+    .water-offline{ background:transparent; color:var(--red); border:1px solid rgba(255,71,87,.12); }
 
     /* MAIN */
     main { padding:20px; max-width:1200px; margin:0 auto; position:relative; z-index:1; }
@@ -212,7 +218,7 @@
   <div class="nav-right">
 
     <span id="last-updated-wrap">Updated: <span id="last-updated">--:--:--</span></span>
-    <span id="connection-status" class="status-ok">● LIVE</span>
+    <span id="water-status" class="water-full">🚰 --</span>
   </div>
 </nav>
 
@@ -384,12 +390,13 @@
             <th>⚗️ pH</th>
             <th>🌊 TURBIDITY</th>
             <th>🧪 TDS</th>
+            <th>🚰 WATER</th>
             <th>STATUS</th>
-          </tr>
+              </tr>
         </thead>
         <tbody id="readings-table">
           <tr>
-            <td colspan="5" style="text-align:center;opacity:0.4;padding:30px;">
+            <td colspan="6" style="text-align:center;opacity:0.4;padding:30px;">
               Waiting for sensor data from ESP32...
             </td>
           </tr>
@@ -457,7 +464,7 @@
     const status = data.status || 'normal';
     tableData.unshift({
       time: new Date(data.created_at).toLocaleString(),
-      ph: ph.toFixed(2), turb: turb.toFixed(2), tds: tds.toFixed(1), status
+      ph: ph.toFixed(2), turb: turb.toFixed(2), tds: tds.toFixed(1), water: (data.water_level ?? '--'), status
     });
     if (tableData.length > 20) tableData = tableData.slice(0, 20);
     document.getElementById('readings-table').innerHTML = tableData.map(row => `
@@ -466,6 +473,7 @@
         <td class="td-val" style="color:${STATUS_COLORS[row.status]}">${row.ph}</td>
         <td class="td-val" style="color:${STATUS_COLORS[row.status]}">${row.turb}</td>
         <td class="td-val" style="color:${STATUS_COLORS[row.status]}">${row.tds}</td>
+        <td class="td-val" style="color:${STATUS_COLORS[row.status]};font-weight:700">${row.water}</td>
         <td><span class="td-badge ${row.status}">${row.status.toUpperCase()}</span></td>
       </tr>`).join('');
     document.getElementById('total-readings').textContent = tableData.length + ' records';
@@ -476,6 +484,21 @@
     const ph   = parseFloat(data.ph_level);
     const turb = parseFloat(data.turbidity);
     const tds  = parseFloat(data.tds);
+    const rawWater = (data.water_level || '').toString();
+    let waterText = '--';
+    let waterClass = 'water-empty';
+    const wl = rawWater.toUpperCase();
+    if (wl.includes('ALMOST') || wl.includes('NEAR')) { waterText = 'NEAR FULL'; waterClass = 'water-near'; }
+    else if (wl.includes('FULL') && !wl.includes('ALMOST')) { waterText = 'FULL'; waterClass = 'water-full'; }
+    else if (wl.includes('NOT') || wl.length === 0) { waterText = 'NOT FULL'; waterClass = 'water-empty'; }
+    else { waterText = rawWater; }
+
+    // update top-right water badge
+    const waterEl = document.getElementById('water-status');
+    if (waterEl) {
+      waterEl.textContent = '🚰 ' + waterText;
+      waterEl.className = waterClass;
+    }
 
     document.getElementById('phVal').textContent   = ph.toFixed(2);
     document.getElementById('turbVal').textContent = turb.toFixed(2);
@@ -507,6 +530,15 @@
     document.getElementById('turbCard').className = 'gauge-card';
     document.getElementById('tdsCard').className  = 'gauge-card';
 
+    // color the logo dot according to water level as secondary indicator
+    const logoDot = document.getElementById('logoDot');
+    if (logoDot) {
+      if (waterClass === 'water-full')    logoDot.style.background = '#00ff9d';
+      else if (waterClass === 'water-near') logoDot.style.background = '#ffd700';
+      else if (waterClass === 'water-empty') logoDot.style.background = '#ff4757';
+      else logoDot.style.background = '#00ff9d';
+    }
+
     const t = new Date(data.created_at);
     document.getElementById('readingTime').textContent  = 'Last reading: ' + t.toLocaleTimeString();
     document.getElementById('last-updated').textContent = t.toLocaleTimeString();
@@ -521,8 +553,7 @@
   let missedPolls = 0;
 
   function setOffline() {
-    document.getElementById('connection-status').className   = 'status-err';
-    document.getElementById('connection-status').textContent = '● OFFLINE';
+    // Keep the water-status badge unchanged (avoid redundancy).
     document.getElementById('logoDot').style.background     = '#ff4757';
     document.getElementById('logoDot').style.animation      = 'none';
     document.getElementById('statusBadge').textContent      = 'OFFLINE';
@@ -530,9 +561,7 @@
   }
 
   function setOnline() {
-    document.getElementById('connection-status').className   = 'status-ok';
-    document.getElementById('connection-status').textContent = '● LIVE';
-    document.getElementById('logoDot').style.background     = '#00ff9d';
+    // leave water badge as-is; restore logo animation and reset missed polls
     document.getElementById('logoDot').style.animation      = 'pulse 2s infinite';
     missedPolls = 0;
   }

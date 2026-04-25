@@ -11,9 +11,10 @@ class SensorController extends Controller
     public function store(Request $request)
     {
         $payload = $request->validate([
-            'ph_level'  => 'sometimes|numeric',
-            'turbidity' => 'sometimes|numeric',
-            'tds'       => 'sometimes|numeric',
+            'ph_level'    => 'sometimes|numeric',
+            'turbidity'   => 'sometimes|numeric',
+            'tds'         => 'sometimes|numeric',
+            'water_level' => 'sometimes', // can be numeric or string (e.g. FULL / NOT FULL)
         ]);
 
         if (empty($payload)) {
@@ -26,9 +27,10 @@ class SensorController extends Controller
         $latest = SensorReading::latest()->first();
 
         // Determine water quality status
-        $ph  = isset($payload['ph_level']) ? (float) $payload['ph_level'] : (float) ($latest?->ph_level ?? 0);
-        $tds = isset($payload['tds']) ? (float) $payload['tds'] : (float) ($latest?->tds ?? 0);
-        $ntu = isset($payload['turbidity']) ? (float) $payload['turbidity'] : (float) ($latest?->turbidity ?? 0);
+        $ph          = isset($payload['ph_level']) ? (float) $payload['ph_level'] : (float) ($latest?->ph_level ?? 0);
+        $tds         = isset($payload['tds']) ? (float) $payload['tds'] : (float) ($latest?->tds ?? 0);
+        $ntu         = isset($payload['turbidity']) ? (float) $payload['turbidity'] : (float) ($latest?->turbidity ?? 0);
+        $water_level = $payload['water_level'] ?? ($latest?->water_level ?? null);
 
         $status = 'normal';
         if ($ph < 6.5 || $ph > 8.5 || $tds > 500 || $ntu > 4) {
@@ -39,10 +41,11 @@ class SensorController extends Controller
         }
 
         $reading = SensorReading::create([
-            'ph_level'  => $ph,
-            'turbidity' => $ntu,
-            'tds'       => $tds,
-            'status'    => $status,
+            'ph_level'    => $ph,
+            'turbidity'   => $ntu,
+            'tds'         => $tds,
+            'status'      => $status,
+            'water_level' => $water_level,
         ]);
 
         return response()->json([
