@@ -236,7 +236,6 @@
 
   <div class="page-header">
     <h1>Water Filtration Monitor</h1>
-    <p>3-LAYER SYSTEM · ESP32 + pH · TURBIDITY · TDS SENSORS · AUTO-REFRESH EVERY 3 SECONDS</p>
   </div>
 
   <!-- FILTRATION FLOW -->
