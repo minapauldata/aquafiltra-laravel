@@ -504,8 +504,9 @@
     document.getElementById('turbVal').textContent = turb.toFixed(2);
     document.getElementById('tdsVal').textContent  = tds.toFixed(1);
 
-    setGauge('phArc',   'phNeedle',   'phVal',   ph,   0, 14,   '#00d4ff', 8.5,  9.0);
-    setGauge('turbArc', 'turbNeedle', 'turbVal', turb, 0, 20,   '#ff6b35', 4,    10);
+    // Use green as the safe/default color for the gauge top outline when within thresholds
+    setGauge('phArc',   'phNeedle',   'phVal',   ph,   0, 14,   '#00ff9d', 8.5,  9.0);
+    setGauge('turbArc', 'turbNeedle', 'turbVal', turb, 0, 20,   '#00ff9d', 4,    10);
     setGauge('tdsArc',  'tdsNeedle',  'tdsVal',  tds,  0, 1000, '#00ff9d', 500,  1000);
 
     const badge = document.getElementById('statusBadge');
@@ -518,8 +519,9 @@
       if (value >= warnThresh)   return '#ffd700';
       return defaultColor;
     }
-    const phColor   = getValueColor(ph,   '#00d4ff', 8.5,  9.0);
-    const turbColor = getValueColor(turb, '#ff6b35', 4,    10);
+    // green when safe
+    const phColor   = getValueColor(ph,   '#00ff9d', 8.5,  9.0);
+    const turbColor = getValueColor(turb, '#00ff9d', 4,    10);
     const tdsColor  = getValueColor(tds,  '#00ff9d', 500,  1000);
 
     document.getElementById('phCard').style.borderTopColor   = phColor;
