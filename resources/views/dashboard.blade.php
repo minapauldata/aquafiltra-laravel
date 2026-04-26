@@ -582,6 +582,7 @@ else { waterText = '--'; waterClass = 'water-empty'; }
           addData(phChart,   t, parseFloat(d.ph_level));
           addData(turbChart, t, parseFloat(d.turbidity));
           addData(tdsChart,  t, parseFloat(d.tds));
+          addTableRow(d);
         });
         if (rows.length) updateUI(rows[rows.length - 1]);
       }).catch(() => {});
