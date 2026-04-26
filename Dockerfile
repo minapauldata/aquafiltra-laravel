@@ -30,8 +30,9 @@ ENV APP_ENV=production
 ENV APP_URL=https://aquafiltra.up.railway.app
 
 RUN composer install --no-dev --optimize-autoloader
+RUN php artisan migrate --force
 RUN php artisan storage:link
 
 EXPOSE 8000
 
-CMD php artisan migrate --force && php artisan config:clear && php artisan cache:clear && php artisan serve --host=0.0.0.0 --port=8000 2>&1
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
