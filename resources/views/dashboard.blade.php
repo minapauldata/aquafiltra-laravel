@@ -493,10 +493,10 @@
     let waterText = '--';
     let waterClass = 'water-empty';
     const wl = rawWater.toUpperCase();
-    if (wl.includes('ALMOST') || wl.includes('NEAR')) { waterText = 'NEAR FULL'; waterClass = 'water-near'; }
-    else if (wl.includes('FULL') && !wl.includes('ALMOST')) { waterText = 'FULL'; waterClass = 'water-full'; }
-    else if (wl.includes('NOT') || wl.length === 0) { waterText = 'NOT FULL'; waterClass = 'water-empty'; }
-    else { waterText = rawWater; }
+    if (wl.includes('NOT')) { waterText = 'NOT FULL'; waterClass = 'water-empty'; }
+else if (wl.includes('ALMOST') || wl.includes('NEAR')) { waterText = 'NEAR FULL'; waterClass = 'water-near'; }
+else if (wl.includes('FULL')) { waterText = 'FULL'; waterClass = 'water-full'; }
+else { waterText = '--'; waterClass = 'water-empty'; }
 
     // update top-right water badge
     const waterEl = document.getElementById('water-status');
