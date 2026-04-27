@@ -449,21 +449,55 @@
     const turb   = parseFloat(data.turbidity);
     const tds    = parseFloat(data.tds);
     const status = data.status || 'normal';
+
+    // Individual colors per sensor
+    function phColor(v) {
+      if (v < 6.5 || v > 9.0) return '#ff4757';
+      if (v < 6.5 || v > 8.5) return '#ffd700';
+      return '#00ff9d';
+    }
+    function turbColor(v) {
+      if (v > 10) return '#ff4757';
+      if (v > 4)  return '#ffd700';
+      return '#00ff9d';
+    }
+    function tdsColor(v) {
+      if (v > 1000) return '#ff4757';
+      if (v > 500)  return '#ffd700';
+      return '#00ff9d';
+    }
+    function waterColor(w) {
+      const wl = (w || '').toString().toUpperCase();
+      if (wl.includes('NOT')) return '#00ff9d';  // NOT FULL = green
+      if (wl.includes('FULL')) return '#ff4757'; // FULL = red
+      return '#8fa8c8';
+    }
+
     tableData.unshift({
-      time: new Date(data.created_at).toLocaleString(),
-      ph: ph.toFixed(2), turb: turb.toFixed(2), tds: tds.toFixed(1),
-      water: (data.water_level ?? '--'), status
+      time:   new Date(data.created_at).toLocaleString(),
+      ph:     ph.toFixed(2),
+      turb:   turb.toFixed(2),
+      tds:    tds.toFixed(1),
+      water:  (data.water_level ?? '--'),
+      status,
+      phC:    phColor(ph),
+      turbC:  turbColor(turb),
+      tdsC:   tdsColor(tds),
+      waterC: waterColor(data.water_level),
     });
+
     if (tableData.length > 20) tableData = tableData.slice(0, 20);
+
     document.getElementById('readings-table').innerHTML = tableData.map(row => `
       <tr>
         <td>${row.time}</td>
-        <td class="td-val" style="color:${STATUS_COLORS[row.status]}">${row.ph}</td>
-        <td class="td-val" style="color:${STATUS_COLORS[row.status]}">${row.turb}</td>
-        <td class="td-val" style="color:${STATUS_COLORS[row.status]}">${row.tds}</td>
-        <td class="td-val" style="color:${STATUS_COLORS[row.status]};font-weight:700">${row.water}</td>
+        <td class="td-val" style="color:${row.phC}">${row.ph}</td>
+        <td class="td-val" style="color:${row.turbC}">${row.turb}</td>
+        <td class="td-val" style="color:${row.tdsC}">${row.tds}</td>
+        <td class="td-val" style="color:${row.waterC};font-weight:700">${row.water}</td>
         <td><span class="td-badge ${row.status}">${row.status.toUpperCase()}</span></td>
       </tr>`).join('');
+
     document.getElementById('total-readings').textContent = tableData.length + ' records';
   }
 
