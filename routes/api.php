@@ -16,3 +16,5 @@ Route::get('/sensor/latest', [SensorController::class, 'latest']);
 
 // Dashboard fetches history for charts (GET)
 Route::get('/sensor/history', [SensorController::class, 'history']);
+
+Route::post('/water-level', [SensorController::class, 'setWaterLevel']);

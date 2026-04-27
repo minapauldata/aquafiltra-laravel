@@ -68,4 +68,20 @@ class SensorController extends Controller
         $readings = SensorReading::latest()->take(20)->get()->reverse()->values();
         return response()->json($readings);
     }
+
+    public function setWaterLevel(Request $request)
+{
+    $payload = $request->validate([
+        'water_level' => 'required|string',
+    ]);
+
+    $latest = SensorReading::latest()->first();
+
+    if ($latest) {
+        $latest->update(['water_level' => $payload['water_level']]);
+        return response()->json(['success' => true, 'data' => $latest], 200);
+    }
+
+    return response()->json(['success' => false, 'message' => 'No reading found'], 404);
+}
 }
