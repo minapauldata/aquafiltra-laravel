@@ -58,7 +58,6 @@
     #connection-status { padding:3px 8px; border:1px solid; font-size:10px; letter-spacing:1px; white-space:nowrap; }
     .status-ok  { border-color:var(--green); color:var(--green); }
     .status-err { border-color:var(--red);   color:var(--red);   }
-    /* Water level badge (replaces connection status) */
     #water-status { padding:4px 10px; border-radius:6px; font-size:12px; font-weight:700; letter-spacing:0.6px; }
     .water-full  { background:rgba(0,255,157,.08); color:var(--green); border:1px solid rgba(0,255,157,.14); }
     .water-near  { background:rgba(255,215,0,.06);  color:var(--yellow); border:1px solid rgba(255,215,0,.12); }
@@ -119,7 +118,6 @@
     .gauge-label { font-size:10px; color:var(--text); text-transform:uppercase;
                    letter-spacing:2px; margin-bottom:12px; font-family:'Space Mono',monospace; }
 
-    /* GAUGE SVG — scales with container */
     .gauge-wrap { position:relative; width:100%; max-width:180px; margin-bottom:6px; }
     .gauge-wrap svg { width:100%; height:auto; overflow:visible; }
     .gauge-value {
@@ -149,7 +147,6 @@
     }
     .section-title span { color:var(--accent); }
 
-    /* TABLE — scrollable on mobile */
     .table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
     table { width:100%; border-collapse:collapse; min-width:420px; }
     th { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--text);
@@ -164,44 +161,33 @@
     .td-badge.warning { color:var(--yellow); border-color:var(--yellow); }
     .td-badge.danger  { color:var(--red);    border-color:var(--red); }
 
-    /* ── TABLET: 2 columns for gauges/charts ── */
     @media(max-width:900px) {
       .cards  { grid-template-columns:repeat(3,1fr); }
       .charts { grid-template-columns:repeat(3,1fr); }
     }
 
-    /* ── MOBILE: single column ── */
     @media(max-width:600px) {
       nav { padding:10px 14px; }
       .logo { font-size:12px; }
       .nav-right { font-size:10px; gap:8px; }
-      #last-updated-wrap { display:none; } /* hide "Updated:" on very small screens */
-
+      #last-updated-wrap { display:none; }
       main { padding:12px; }
       .page-header h1 { font-size:1.1rem; }
       .page-header p { font-size:9px; }
-
-      /* Gauges: 1 per row on phone */
       .cards  { grid-template-columns:1fr; gap:12px; }
       .charts { grid-template-columns:1fr; gap:12px; }
-
-      /* Gauge SVG bigger on single column */
       .gauge-wrap { max-width:220px; }
       .gauge-value { font-size:clamp(22px,8vw,30px); }
       .gauge-range { max-width:220px; }
-
       .gauge-card { padding:16px 14px 14px; }
       .gauge-label { font-size:10px; margin-bottom:10px; }
-
       .chart-box { padding:14px; }
       .history-section { padding:14px; }
-
       .flow { padding:12px; }
     }
 
-    /* ── VERY SMALL (< 380px) ── */
     @media(max-width:380px) {
-      .logo span { display:none; } /* hide text, keep dot+emoji */
+      .logo span { display:none; }
       .nav-right gap { gap:6px; }
       .page-header h1 { font-size:1rem; }
     }
@@ -215,15 +201,12 @@
     <span style="font-family:'Space Mono',monospace;font-size:13px;color:var(--white);font-weight:700;">AquaFiltra Monitor</span>
   </div>
   <div class="nav-right">
-
     <span id="last-updated-wrap">Updated: <span id="last-updated">--:--:--</span></span>
     <span id="water-status" class="water-full">🚰 --</span>
   </div>
 </nav>
 
-<!-- FLOATING ABOUT US BUTTON -->
-<a id="downloadBtn" href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">Download App</a>
-
+<a id="downloadBtn" href="https://aquafiltra.up.railway.app/app-debug.apk" download class="fab" style="bottom:80px;">📱 Download App</a>
 <a href="{{ url('/about') }}" class="fab">👥 About Us</a>
 
 <script>
@@ -279,13 +262,11 @@
       <div class="flow-sensor-label" style="color:#00ff94;">TDS<br>Sensor</div>
     </div>
     <div class="flow-arrow">·</div>
-    <!-- Water level sensor inserted after TDS -->
     <div class="flow-sensor">
       <div class="flow-sensor-dot" style="background:#00d4ff;"></div>
       <div class="flow-sensor-label" style="color:#00d4ff;">Water Level<br>Sensor</div>
     </div>
     <div class="flow-arrow">→</div>
-    <!-- Move UV light to after water level sensor -->
     <div class="flow-item">
       <div class="flow-icon">🔆</div>
       <div class="flow-label">UV LIGHT</div>
@@ -326,7 +307,6 @@
         <div class="gauge-value" id="phVal" style="color:#00d4ff;">--</div>
       </div>
       <div class="gauge-unit">pH Scale 0 – 14</div>
-      
       <div class="gauge-safe">Safe: <span>6.5 – 8.5</span></div>
     </div>
 
@@ -347,7 +327,6 @@
         <div class="gauge-value" id="turbVal" style="color:#ff6b35;">--</div>
       </div>
       <div class="gauge-unit">NTU (0 – 20)</div>
-      
       <div class="gauge-safe">Safe: <span>&lt; 4 NTU</span></div>
     </div>
 
@@ -368,7 +347,6 @@
         <div class="gauge-value" id="tdsVal" style="color:#00ff9d;">--</div>
       </div>
       <div class="gauge-unit">ppm (0 – 1000)</div>
-      
       <div class="gauge-safe">Safe: <span>&lt; 500 ppm</span></div>
     </div>
 
@@ -397,7 +375,7 @@
             <th>🧪 TDS</th>
             <th>🚰 WATER</th>
             <th>STATUS</th>
-              </tr>
+          </tr>
         </thead>
         <tbody id="readings-table">
           <tr>
@@ -416,6 +394,11 @@
   const BASE    = window.location.origin;
   const HEADERS = { 'ngrok-skip-browser-warning': 'true' };
   const STATUS_COLORS = { normal:'#00ff9d', warning:'#ffd700', danger:'#ff4757' };
+
+  // ── TRACK LAST SEEN ID ──
+  let tableData  = [];
+  let lastSeenId = 0;
+  let missedPolls = 0;
 
   function setGauge(arcId, needleId, valueElId, value, min, max, defaultColor, warnThresh, dangerThresh) {
     const pct    = Math.min(Math.max((value - min) / (max - min), 0), 1);
@@ -461,7 +444,6 @@
     chart.update('none');
   }
 
-  let tableData = [];
   function addTableRow(data) {
     const ph     = parseFloat(data.ph_level);
     const turb   = parseFloat(data.turbidity);
@@ -469,7 +451,8 @@
     const status = data.status || 'normal';
     tableData.unshift({
       time: new Date(data.created_at).toLocaleString(),
-      ph: ph.toFixed(2), turb: turb.toFixed(2), tds: tds.toFixed(1), water: (data.water_level ?? '--'), status
+      ph: ph.toFixed(2), turb: turb.toFixed(2), tds: tds.toFixed(1),
+      water: (data.water_level ?? '--'), status
     });
     if (tableData.length > 20) tableData = tableData.slice(0, 20);
     document.getElementById('readings-table').innerHTML = tableData.map(row => `
@@ -484,32 +467,27 @@
     document.getElementById('total-readings').textContent = tableData.length + ' records';
   }
 
-  function updateUI(data) {
-    if (!data) return;
+  function updateWaterBadge(data) {
+    const rawWater = (data.water_level || '').toString();
+    const wl = rawWater.toUpperCase();
+    let waterText = '--';
+    let waterClass = 'water-empty';
+    if (wl.includes('NOT'))                                { waterText = 'NOT FULL'; waterClass = 'water-empty'; }
+    else if (wl.includes('ALMOST') || wl.includes('NEAR')) { waterText = 'NEAR FULL'; waterClass = 'water-near'; }
+    else if (wl.includes('FULL'))                          { waterText = 'FULL'; waterClass = 'water-full'; }
+    const waterEl = document.getElementById('water-status');
+    if (waterEl) { waterEl.textContent = '🚰 ' + waterText; waterEl.className = waterClass; }
+  }
+
+  function updateGaugesAndStatus(data) {
     const ph   = parseFloat(data.ph_level);
     const turb = parseFloat(data.turbidity);
     const tds  = parseFloat(data.tds);
-    const rawWater = (data.water_level || '').toString();
-    let waterText = '--';
-    let waterClass = 'water-empty';
-    const wl = rawWater.toUpperCase();
-    if (wl.includes('NOT')) { waterText = 'NOT FULL'; waterClass = 'water-empty'; }
-else if (wl.includes('ALMOST') || wl.includes('NEAR')) { waterText = 'NEAR FULL'; waterClass = 'water-near'; }
-else if (wl.includes('FULL')) { waterText = 'FULL'; waterClass = 'water-full'; }
-else { waterText = '--'; waterClass = 'water-empty'; }
-
-    // update top-right water badge
-    const waterEl = document.getElementById('water-status');
-    if (waterEl) {
-      waterEl.textContent = '🚰 ' + waterText;
-      waterEl.className = waterClass;
-    }
 
     document.getElementById('phVal').textContent   = ph.toFixed(2);
     document.getElementById('turbVal').textContent = turb.toFixed(2);
     document.getElementById('tdsVal').textContent  = tds.toFixed(1);
 
-    // Use green as the safe/default color for the gauge top outline when within thresholds
     setGauge('phArc',   'phNeedle',   'phVal',   ph,   0, 14,   '#00ff9d', 8.5,  9.0);
     setGauge('turbArc', 'turbNeedle', 'turbVal', turb, 0, 20,   '#00ff9d', 4,    10);
     setGauge('tdsArc',  'tdsNeedle',  'tdsVal',  tds,  0, 1000, '#00ff9d', 500,  1000);
@@ -518,13 +496,11 @@ else { waterText = '--'; waterClass = 'water-empty'; }
     badge.textContent = data.status.toUpperCase();
     badge.className   = 'badge ' + data.status;
 
-    // Set each card border color based on its own value color
     function getValueColor(value, defaultColor, warnThresh, dangerThresh) {
       if (value >= dangerThresh) return '#ff4757';
       if (value >= warnThresh)   return '#ffd700';
       return defaultColor;
     }
-    // green when safe
     const phColor   = getValueColor(ph,   '#00ff9d', 8.5,  9.0);
     const turbColor = getValueColor(turb, '#00ff9d', 4,    10);
     const tdsColor  = getValueColor(tds,  '#00ff9d', 500,  1000);
@@ -537,39 +513,38 @@ else { waterText = '--'; waterClass = 'water-empty'; }
     document.getElementById('turbCard').className = 'gauge-card';
     document.getElementById('tdsCard').className  = 'gauge-card';
 
-    // color the logo dot according to water level as secondary indicator
-    const logoDot = document.getElementById('logoDot');
-    if (logoDot) {
-      if (waterClass === 'water-full')    logoDot.style.background = '#00ff9d';
-      else if (waterClass === 'water-near') logoDot.style.background = '#ffd700';
-      else if (waterClass === 'water-empty') logoDot.style.background = '#ff4757';
-      else logoDot.style.background = '#00ff9d';
-    }
+    document.getElementById('readingTime').textContent  = 'Last reading: ' + new Date(data.created_at).toLocaleTimeString();
+    document.getElementById('last-updated').textContent = new Date(data.created_at).toLocaleTimeString();
 
-    const t = new Date(data.created_at);
-    document.getElementById('readingTime').textContent  = 'Last reading: ' + t.toLocaleTimeString();
-    document.getElementById('last-updated').textContent = t.toLocaleTimeString();
-
-    const timeLabel = t.toLocaleTimeString();
-    addData(phChart,   timeLabel, ph);
-    addData(turbChart, timeLabel, turb);
-    addData(tdsChart,  timeLabel, tds);
-    addTableRow(data);
+    updateWaterBadge(data);
   }
 
-  let missedPolls = 0;
+  // ── FULL UPDATE (new data — adds table row + chart point) ──
+  function updateUI(data) {
+    if (!data) return;
+    const ph   = parseFloat(data.ph_level);
+    const turb = parseFloat(data.turbidity);
+    const tds  = parseFloat(data.tds);
+    const t    = new Date(data.created_at).toLocaleTimeString();
+    addData(phChart,   t, ph);
+    addData(turbChart, t, turb);
+    addData(tdsChart,  t, tds);
+    addTableRow(data);
+    updateGaugesAndStatus(data);
+  }
+
+  // ── LIGHTWEIGHT UPDATE (same data — no duplicate table row) ──
+  function updateUINoTable(data) {
+    if (!data) return;
+    updateGaugesAndStatus(data);
+  }
 
   function setOffline() {
-    // Keep the water-status badge unchanged (avoid redundancy).
-    document.getElementById('logoDot').style.background     = '#ff4757';
-    document.getElementById('logoDot').style.animation      = 'none';
-    document.getElementById('statusBadge').textContent      = 'OFFLINE';
-    document.getElementById('statusBadge').className        = 'badge danger';
+    document.getElementById('statusBadge').textContent = 'OFFLINE';
+    document.getElementById('statusBadge').className   = 'badge danger';
   }
 
   function setOnline() {
-    // leave water badge as-is; restore logo animation and reset missed polls
-    document.getElementById('logoDot').style.animation      = 'pulse 2s infinite';
     missedPolls = 0;
   }
 
@@ -584,7 +559,11 @@ else { waterText = '--'; waterClass = 'water-empty'; }
           addData(tdsChart,  t, parseFloat(d.tds));
           addTableRow(d);
         });
-        if (rows.length) updateUI(rows[rows.length - 1]);
+        if (rows.length) {
+          const latest = rows[rows.length - 1];
+          lastSeenId = latest.id;
+          updateGaugesAndStatus(latest);
+        }
       }).catch(() => {});
   }
 
@@ -596,7 +575,12 @@ else { waterText = '--'; waterClass = 'water-empty'; }
         const age = (Date.now() - new Date(data.created_at).getTime()) / 1000;
         if (age > 15) { missedPolls++; if (missedPolls >= 2) setOffline(); return; }
         setOnline();
-        updateUI(data);
+        if (data.id !== lastSeenId) {
+          lastSeenId = data.id;
+          updateUI(data);         // new data → add chart + table row
+        } else {
+          updateUINoTable(data);  // same data → just update gauges
+        }
       })
       .catch(() => { missedPolls++; if (missedPolls >= 2) setOffline(); });
   }
