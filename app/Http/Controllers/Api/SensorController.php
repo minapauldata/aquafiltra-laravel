@@ -30,7 +30,8 @@ class SensorController extends Controller
         $ph          = isset($payload['ph_level']) ? (float) $payload['ph_level'] : (float) ($latest?->ph_level ?? 0);
         $tds         = isset($payload['tds']) ? (float) $payload['tds'] : (float) ($latest?->tds ?? 0);
         $ntu         = isset($payload['turbidity']) ? (float) $payload['turbidity'] : (float) ($latest?->turbidity ?? 0);
-        $water_level = $payload['water_level'] ?? ($latest?->water_level ?? null);
+        // Water level is ONLY set from control page — ignore ESP32 water_level
+        $water_level = $latest?->water_level ?? 'NOT FULL';
 
         $status = 'normal';
         if ($ph < 6.5 || $ph > 8.5 || $tds > 500 || $ntu > 4) {
