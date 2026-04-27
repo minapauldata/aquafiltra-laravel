@@ -44,7 +44,6 @@
     .page-header h1 { font-size:1.6rem; font-weight:800; color:var(--white); margin-bottom:8px; }
     .page-header p  { font-family:'Space Mono',monospace; font-size:11px; color:var(--text); opacity:0.6; }
 
-    /* CURRENT STATUS */
     .current-box {
       background:var(--card); border:1px solid var(--border);
       padding:20px; margin-bottom:32px; text-align:center;
@@ -53,14 +52,13 @@
                      letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; }
     .current-value { font-family:'Space Mono',monospace; font-size:24px; font-weight:700; }
 
-    /* BUTTONS */
     .btn-grid { display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:32px; }
     .btn-water {
       padding:24px; border:2px solid; border-radius:8px;
       font-family:'Space Mono',monospace; font-size:14px; font-weight:700;
       cursor:pointer; background:transparent; letter-spacing:1px;
       transition:all 0.2s; display:flex; align-items:center;
-      justify-content:space-between;
+      justify-content:space-between; width:100%;
     }
     .btn-water:hover { transform:translateY(-2px); }
     .btn-full   { border-color:var(--red);    color:var(--red); }
@@ -69,20 +67,18 @@
     .btn-near:hover   { background:rgba(255,215,0,0.08); }
     .btn-empty  { border-color:var(--green);  color:var(--green); }
     .btn-empty:hover  { background:rgba(0,255,157,0.08); }
-    .btn-water.active { opacity:1; }
-    .btn-water:not(.active) { opacity:0.6; }
+    .btn-water.active { opacity:1; box-shadow:0 0 20px rgba(0,212,255,0.15); }
+    .btn-water:not(.active) { opacity:0.5; }
     .btn-icon { font-size:24px; }
     .btn-desc { font-size:10px; opacity:0.7; text-align:right; }
 
-    /* FEEDBACK */
     .feedback {
       text-align:center; font-family:'Space Mono',monospace; font-size:12px;
-      padding:12px; border-radius:4px; display:none;
+      padding:12px; border-radius:4px; display:none; margin-bottom:16px;
     }
     .feedback.success { background:rgba(0,255,157,0.08); color:var(--green); border:1px solid var(--green); }
     .feedback.error   { background:rgba(255,71,87,0.08);  color:var(--red);   border:1px solid var(--red); }
 
-    /* BACK BUTTON */
     .fab {
       position:fixed; bottom:28px; right:24px; z-index:200;
       background:var(--accent); color:#070d1a;
@@ -113,13 +109,13 @@
     <p>Manually set the water level status displayed on the dashboard</p>
   </div>
 
-  <!-- CURRENT STATUS -->
   <div class="current-box">
     <div class="current-label">Current Water Level</div>
     <div class="current-value" id="currentStatus">Loading...</div>
   </div>
 
-  <!-- BUTTONS -->
+  <div class="feedback" id="feedback"></div>
+
   <div class="btn-grid">
 
     <button class="btn-water btn-full" onclick="setWaterLevel('FULL')">
@@ -148,28 +144,28 @@
 
   </div>
 
-  <div class="feedback" id="feedback"></div>
-
 </main>
 
 <script>
   const BASE = window.location.origin;
 
   // Load current water level
-  fetch(BASE + '/api/sensor/latest')
-    .then(r => r.json())
-    .then(data => {
-      const wl = data.water_level || 'NOT FULL';
-      document.getElementById('currentStatus').textContent = wl;
-      updateActiveBtn(wl);
-    })
-    .catch(() => {
-      document.getElementById('currentStatus').textContent = 'Unknown';
-    });
+  function loadCurrent() {
+    fetch(BASE + '/api/sensor/latest')
+      .then(r => r.json())
+      .then(data => {
+        const wl = data.water_level || 'NOT FULL';
+        document.getElementById('currentStatus').textContent = wl;
+        updateActiveBtn(wl);
+      })
+      .catch(() => {
+        document.getElementById('currentStatus').textContent = 'Unknown';
+      });
+  }
 
   function updateActiveBtn(wl) {
     document.querySelectorAll('.btn-water').forEach(b => b.classList.remove('active'));
-    const wlUp = wl.toUpperCase();
+    const wlUp = (wl || '').toString().toUpperCase();
     if (wlUp.includes('NOT'))         document.querySelector('.btn-empty').classList.add('active');
     else if (wlUp.includes('ALMOST')) document.querySelector('.btn-near').classList.add('active');
     else if (wlUp.includes('FULL'))   document.querySelector('.btn-full').classList.add('active');
@@ -179,13 +175,22 @@
     const feedback = document.getElementById('feedback');
     feedback.style.display = 'none';
 
-    fetch(BASE + '/api/sensor-data', {
+    console.log('Setting water level to:', level);
+
+    fetch(BASE + '/api/water-level', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
       body: JSON.stringify({ water_level: level })
     })
-    .then(r => r.json())
+    .then(r => {
+      console.log('Response status:', r.status);
+      return r.json();
+    })
     .then(data => {
+      console.log('Response data:', data);
       if (data.success) {
         document.getElementById('currentStatus').textContent = level;
         updateActiveBtn(level);
@@ -194,15 +199,18 @@
         feedback.style.display = 'block';
         setTimeout(() => { feedback.style.display = 'none'; }, 3000);
       } else {
-        throw new Error('Failed');
+        throw new Error(data.message || 'Failed');
       }
     })
-    .catch(() => {
+    .catch(err => {
+      console.error('Error:', err);
       feedback.className = 'feedback error';
-      feedback.textContent = '❌ Failed to update. Check server connection.';
+      feedback.textContent = '❌ Failed: ' + err.message;
       feedback.style.display = 'block';
     });
   }
+
+  loadCurrent();
 </script>
 
 </body>
