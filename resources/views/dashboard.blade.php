@@ -307,7 +307,7 @@
         <div class="gauge-value" id="phVal" style="color:#00d4ff;">--</div>
       </div>
       <div class="gauge-unit">pH Scale 0 – 14</div>
-      <div class="gauge-safe">Safe: <span>6.5 – 8.5</span></div>
+      <div class="gauge-safe">Normal: <span>6.5 – 8.5</span></div>
     </div>
 
     <div class="gauge-card" id="turbCard">
@@ -327,7 +327,7 @@
         <div class="gauge-value" id="turbVal" style="color:#ff6b35;">--</div>
       </div>
       <div class="gauge-unit">NTU (0 – 20)</div>
-      <div class="gauge-safe">Safe: <span>&lt; 4 NTU</span></div>
+      <div class="gauge-safe">Normal: <span>&lt; 4 NTU</span></div>
     </div>
 
     <div class="gauge-card" id="tdsCard">
@@ -347,7 +347,7 @@
         <div class="gauge-value" id="tdsVal" style="color:#00ff9d;">--</div>
       </div>
       <div class="gauge-unit">ppm (0 – 1000)</div>
-      <div class="gauge-safe">Safe: <span>&lt; 500 ppm</span></div>
+      <div class="gauge-safe">Normal: <span>&lt; 500 ppm</span></div>
     </div>
 
   </div>
